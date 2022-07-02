@@ -16,6 +16,7 @@ class Game:
         bg_height = pygame.image.load('graphics/background.png').get_height()
         self.scale_factor = WINDOW_HEIGHT / bg_height
         BG(self.all_sprites,self.scale_factor)
+        Ground(self.all_sprites,self.scale_factor)
 
     def run(self):
         last_time = time.time()
