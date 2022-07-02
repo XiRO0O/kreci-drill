@@ -66,5 +66,17 @@ class Kret(pygame.sprite.Sprite):
     def jump(self):
         self.direction = - 700
 
+    def animate(self,dt):
+        self.frame_index += 5 * dt
+        if self.frame_index >= len(self.frames):
+            self.frame_index = 0
+        self.image = self.frames[int(self.frame_index)]
+
+    def rotate(self,dt):
+        rotaded_kret = pygame.transform.rotozoom(self.image,-self.direction * 0.06,1)
+        self.image = rotaded_kret
+
     def update(self,dt):
         self.apply_gravity(dt)
+        self.animate(dt)
+        self.rotate(dt)
