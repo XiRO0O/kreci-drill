@@ -1,5 +1,6 @@
 import pygame,sys,time
 from settings import *
+from sprites import BG, Ground
 
 class Game:
     def __init__(self):
@@ -8,6 +9,13 @@ class Game:
         pygame.display.set_caption('Kreci Drill')
         pygame.display.set_icon(pygame.image.load('graphics/kret.png').convert_alpha())
         self.clock = pygame.time.Clock()
+
+        self.all_sprites = pygame.sprite.Group()
+        self.collision_sprites = pygame.sprite.Group()
+
+        bg_height = pygame.image.load('graphics/background.png').get_height()
+        self.scale_factor = WINDOW_HEIGHT / bg_height
+        BG(self.all_sprites,self.scale_factor)
 
     def run(self):
         last_time = time.time()
@@ -19,6 +27,9 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+            self.all_sprites.update(dt)
+            self.all_sprites.draw(self.display_surface)
 
             pygame.display.update()
             self.clock.tick(FRAMERATE)
