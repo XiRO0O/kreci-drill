@@ -1,6 +1,6 @@
 import pygame,sys,time
 from settings import *
-from sprites import BG, Ground, Kret
+from sprites import BG, Ground, Kret, Pipe
 
 class Game:
     def __init__(self):
@@ -19,6 +19,9 @@ class Game:
         Ground(self.all_sprites,self.scale_factor)
         self.kret = Kret(self.all_sprites,self.scale_factor / 1.6)
 
+        self.obstacle_timer = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.obstacle_timer, 1400)
+
     def run(self):
         last_time = time.time()
         while True:
@@ -31,6 +34,9 @@ class Game:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.kret.jump()
+
+                if event.type == self.obstacle_timer:
+                    Pipe(self.all_sprites,self.scale_factor)
 
             self.all_sprites.update(dt)
             self.all_sprites.draw(self.display_surface)

@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from random import choice, randint
 
 class BG(pygame.sprite.Sprite):
     def __init__(self,groups,scale_factor):
@@ -80,3 +81,29 @@ class Kret(pygame.sprite.Sprite):
         self.apply_gravity(dt)
         self.animate(dt)
         self.rotate(dt)
+
+class Pipe(pygame.sprite.Sprite):
+    def __init__(self,groups,scale_factor):
+        super().__init__(groups)
+
+        orientation = choice(('up','down'))
+        surf = pygame.image.load(f'graphics/pipe{randint(1,4)}.png').convert_alpha()
+        self.image = pygame.transform.scale(surf,pygame.math.Vector2(surf.get_size())* scale_factor)
+        
+        x = WINDOW_WIDTH + 100 + randint(40,100)
+        
+        if orientation == 'up':
+            y = WINDOW_HEIGHT + randint(10,50)
+            self.rect = self.image.get_rect(midbottom = (x,y))
+        else:
+            y = randint(-50,-10)
+            self.image = pygame.transform.flip(self.image,False,True)
+            self.rect = self.image.get_rect(midtop = (x,y))
+
+        self.pos = pygame.math.Vector2(self.rect.topleft)
+
+    def update(self, dt):
+        self.pos.x -= 400 * dt
+        self.rect.x = round(self.pos.x)
+        if self.rect.right <= -100:
+            self.kill
