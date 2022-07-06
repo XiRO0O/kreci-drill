@@ -31,6 +31,7 @@ class Ground(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(ground_surf,pygame.math.Vector2(ground_surf.get_size()) * scale_factor)
         self.rect = self.image.get_rect(topleft = (0,0))
         self.pos = pygame.math.Vector2(self.rect.topleft)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self,dt):
         self.pos.x -= 360 * dt
@@ -51,6 +52,8 @@ class Kret(pygame.sprite.Sprite):
 
         self.gravity = 1500
         self.direction = 0
+
+        self.mask = pygame.mask.from_surface(self.image)
 
     def import_frames(self,scale_factor):
         self.frames = []
@@ -76,13 +79,14 @@ class Kret(pygame.sprite.Sprite):
     def rotate(self,dt):
         rotaded_kret = pygame.transform.rotozoom(self.image,-self.direction * 0.06,1)
         self.image = rotaded_kret
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self,dt):
         self.apply_gravity(dt)
         self.animate(dt)
         self.rotate(dt)
 
-class Pipe(pygame.sprite.Sprite):
+class Pipe(pygame.sprite.Sprite): 
     def __init__(self,groups,scale_factor):
         super().__init__(groups)
 
@@ -101,6 +105,7 @@ class Pipe(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(midtop = (x,y))
 
         self.pos = pygame.math.Vector2(self.rect.topleft)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, dt):
         self.pos.x -= 400 * dt

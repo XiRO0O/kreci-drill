@@ -16,11 +16,16 @@ class Game:
         bg_height = pygame.image.load('graphics/background.png').get_height()
         self.scale_factor = WINDOW_HEIGHT / bg_height
         BG(self.all_sprites,self.scale_factor)
-        Ground(self.all_sprites,self.scale_factor)
+        Ground([self.all_sprites,self.collision_sprites],self.scale_factor)
         self.kret = Kret(self.all_sprites,self.scale_factor / 1.6)
 
         self.obstacle_timer = pygame.USEREVENT + 1
         pygame.time.set_timer(self.obstacle_timer, 1400)
+
+    def collisions(self):
+        if pygame.sprite.spritecollide(self.kret,self.collision_sprites,False,pygame.sprite.collide_mask):
+            pygame.quit()
+            sys.exit()
 
     def run(self):
         last_time = time.time()
@@ -36,9 +41,10 @@ class Game:
                     self.kret.jump()
 
                 if event.type == self.obstacle_timer:
-                    Pipe(self.all_sprites,self.scale_factor)
+                    Pipe([self.all_sprites,self.collision_sprites],self.scale_factor)
 
             self.all_sprites.update(dt)
+            self.collisions()
             self.all_sprites.draw(self.display_surface)
 
             pygame.display.update()
