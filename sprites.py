@@ -27,6 +27,7 @@ class BG(pygame.sprite.Sprite):
 class Ground(pygame.sprite.Sprite):
     def __init__(self,groups,scale_factor):
         super().__init__(groups)
+        self.sprite_type = 'ground'
         ground_surf = pygame.image.load('graphics/ground.png').convert_alpha()
         self.image = pygame.transform.scale(ground_surf,pygame.math.Vector2(ground_surf.get_size()) * scale_factor)
         self.rect = self.image.get_rect(topleft = (0,0))
@@ -89,6 +90,7 @@ class Kret(pygame.sprite.Sprite):
 class Pipe(pygame.sprite.Sprite): 
     def __init__(self,groups,scale_factor):
         super().__init__(groups)
+        self.sprite_type = 'pipe'
 
         orientation = choice(('up','down'))
         surf = pygame.image.load(f'graphics/pipe{randint(1,4)}.png').convert_alpha()
