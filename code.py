@@ -9,7 +9,7 @@ class Game:
         pygame.display.set_caption('Kreci Drill')
         pygame.display.set_icon(pygame.image.load('graphics/kret0.png').convert_alpha())
         self.clock = pygame.time.Clock()
-        self.active = True
+        self.active = False
 
         self.all_sprites = pygame.sprite.Group()
         self.collision_sprites = pygame.sprite.Group()
@@ -18,7 +18,6 @@ class Game:
         self.scale_factor = WINDOW_HEIGHT / bg_height
         BG(self.all_sprites,self.scale_factor)
         Ground([self.all_sprites,self.collision_sprites],self.scale_factor)
-        self.kret = Kret(self.all_sprites,self.scale_factor / 1.6)
 
         self.obstacle_timer = pygame.USEREVENT + 1
         pygame.time.set_timer(self.obstacle_timer, 1400)
@@ -39,7 +38,6 @@ class Game:
             self.active = False
             self.kret.kill()
             
-
     def display_score(self):
         if self.active:
             self.score = (pygame.time.get_ticks() - self.start_offset) // 1000
